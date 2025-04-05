@@ -33,7 +33,7 @@ export const useChatStore = create((set, get) => ({
       set({ isMessagesLoading: false });
     }
   },
-  
+
   sendMessage: async (messageData) => {
     const { selectedUser, messages } = get();
     try {
@@ -45,8 +45,11 @@ export const useChatStore = create((set, get) => ({
   },
 
   subscribeToMessages: () => {
-    const { selectedUser } = get();
-    if (!selectedUser) return;
+    const { selectedUser, messages } = get();
+    if (!selectedUser) {
+      toast.error("No user selected!");
+      return;
+    }
 
     const socket = useAuthStore.getState().socket;
 
